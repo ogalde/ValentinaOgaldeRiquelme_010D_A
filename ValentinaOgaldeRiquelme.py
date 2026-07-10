@@ -11,6 +11,7 @@ def validar_clasificacion(clasificacion):
 def buscar_codigo(codigo, juegos):
     return codigo.upper() in juegos
 
+def stock_plataforma(plataforma)
 
 def busqueda_precio(p_min, p_max, juegos, inventario):
     resultados = []
@@ -41,7 +42,7 @@ def eliminar_juego(codigo, juegos, inventario):
     if buscar_codigo(codigo, juegos:
         del juegos [codigo.upper()]
         del inventario [codigo.upper()]
-        return True
+        return True}
     return False
 
 def leer_opcion():
@@ -56,8 +57,35 @@ def leer_opcion():
             
 
 def gestion_agregar(juegos, inventario):
-    if buscar_codigo(codigo, juegos)
-    return False
+
+    cod = input("Código: ")
+    nom = input("Nombre: ")
+    tit= input("Título: ")
+    plat = input("Plataforma: ")
+    gen = input("Género")
+    clas = input("Clasificación: ")
+    mplay = input("Multiplayer: ")
+    edit = input("Editor: ")
+    try:
+        pre = float(input("Precio: "))
+        stck = int(input("Cantidad de stock: "))
+        
+        if not validar_codigo(cod) or buscar_codigo(cod, juegos, inventario):
+            print("El código ya existe")
+        elif not validar_nombre(nom): print("Nombre inválido")
+        elif not validar_titulo(tit): print("Título inválido")
+        elif not validar_plataforma(plat): print("Plataforma inválido")
+        elif not validar_genero(gen): print("Género inválido")
+        elif not validar_clasificacion(clas): print("Clasificación inválida")
+        elif not validar_multiplayer(mplay): print("Multiplayer inváldio")
+        elif not validar_editor(edit): print("Editor inválido")
+        elif not validar_precio(pre): print("Precio inválido")
+        elif not validar_stock(stck): print("Stock inválido")
+        else:
+            agregar_juego(cod, nom, tit, plat, gen, clas, mplay, edit, pre, stck, juegos, inventario)
+            print("Juego agregado")
+    except ValueError:
+        print("Debe ingresar valores numéricos.")
 
 
 
@@ -101,7 +129,9 @@ def main ():
         op = leer_opcion():
 
         if op == 1:
-
+        plat = input("Ingrese el nombre de la plataforma: ")
+        stock_plataforma(plat, juegos, inventario)
+        
         elif op == 2:
             try:
                 p_min = int(input("Precio mínimo: "))
@@ -138,8 +168,6 @@ def main ():
                 
                 if input("¿Desea actualizar otro precio (s/n)? ").lower() == 'n':
                     break
-
-
         elif op == 4:
             gestion_agregar(juegos, inventario)
 
@@ -150,3 +178,4 @@ def main ():
             break
         
 if__name__ == "__main__" : main()
+        
