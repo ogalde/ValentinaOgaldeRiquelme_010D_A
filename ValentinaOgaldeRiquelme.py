@@ -5,13 +5,18 @@ def validar_genero(genero): return len(genero.strip()) > 0
 def validar_editor(editor): return len(editor.strip()) > 0
 def validar_precio(precio): return precio > 0
 def validar_stock(stock): return stock >= 0
-def validar_multiplayer(multiplayer):
-def validar_clasificacion(clasificacion):
+def validar_multiplayer(multiplayer): return multiplayer.lower() in ("s", "n")
+def validar_clasificacion(clasificacion):  return clasificacion in ("E", "T", "M")
 
 def buscar_codigo(codigo, juegos):
     return codigo.upper() in juegos
 
-def stock_plataforma(plataforma)
+def stock_plataforma(plataforma, juegos, inventario):
+    total = 0
+    for cod, datos in juegos.items():
+        if datos[1].lower() == plataforma.lower():
+            total += inventario[cod][1]
+        print(f"La cantidad total de stock de juegos es: {total}")
 
 def busqueda_precio(p_min, p_max, juegos, inventario):
     resultados = []
@@ -22,7 +27,7 @@ def busqueda_precio(p_min, p_max, juegos, inventario):
     return resultados
 
 
-def agregar_juego(titulo, plataforma, genero, editor, clasificacion, precio, stock, juegos, inventario)
+def agregar_juego(codigo, titulo, plataforma, genero, editor, multiplayer, clasificacion, precio, stock, juegos, inventario):
     if buscar_codigo(codigo, juegos):
         return False
     juegos[codigo.upper()] = [titulo, plataforma, genero, clasificacion, multiplayer, editor]
@@ -31,7 +36,7 @@ def agregar_juego(titulo, plataforma, genero, editor, clasificacion, precio, sto
 
         
 
-def actualizar_precio(codigo, nuevo_juego, inventario):
+def actualizar_precio(codigo, nuevo_precio, inventario):
     if buscar_codigo(codigo, inventario):
         inventario[codigo.upper()][0] = nuevo_precio
         return True
@@ -39,10 +44,10 @@ def actualizar_precio(codigo, nuevo_juego, inventario):
 
 
 def eliminar_juego(codigo, juegos, inventario):
-    if buscar_codigo(codigo, juegos:
+    if buscar_codigo(codigo, juegos):
         del juegos [codigo.upper()]
         del inventario [codigo.upper()]
-        return True}
+        return True
     return False
 
 def leer_opcion():
@@ -59,7 +64,6 @@ def leer_opcion():
 def gestion_agregar(juegos, inventario):
 
     cod = input("Código: ")
-    nom = input("Nombre: ")
     tit= input("Título: ")
     plat = input("Plataforma: ")
     gen = input("Género")
@@ -72,7 +76,6 @@ def gestion_agregar(juegos, inventario):
         
         if not validar_codigo(cod) or buscar_codigo(cod, juegos, inventario):
             print("El código ya existe")
-        elif not validar_nombre(nom): print("Nombre inválido")
         elif not validar_titulo(tit): print("Título inválido")
         elif not validar_plataforma(plat): print("Plataforma inválido")
         elif not validar_genero(gen): print("Género inválido")
@@ -82,12 +85,17 @@ def gestion_agregar(juegos, inventario):
         elif not validar_precio(pre): print("Precio inválido")
         elif not validar_stock(stck): print("Stock inválido")
         else:
-            agregar_juego(cod, nom, tit, plat, gen, clas, mplay, edit, pre, stck, juegos, inventario)
+            agregar_juego(cod, tit, plat, gen, clas, mplay, edit, pre, stck, juegos, inventario)
             print("Juego agregado")
     except ValueError:
         print("Debe ingresar valores numéricos.")
 
-
+def gestion_eliminar(juegos, inventario):
+    cod = input("Código: ")
+    if eliminar_juego(cod, juegos, inventario): 
+        print("Juego eliminado")
+    else: 
+        print("El código no existe")
 
 def mostrar_menu():
     print("=====MENÚ PRINCIPAL=====")
@@ -125,8 +133,8 @@ def main ():
 
     
     while True:
-        mostrar_menu():
-        op = leer_opcion():
+        mostrar_menu()
+        op = leer_opcion()
 
         if op == 1:
         plat = input("Ingrese el nombre de la plataforma: ")
@@ -149,13 +157,13 @@ def main ():
                         for r in res:
                             print(r)
             except ValueError:
-                print("Debe ingresar valores enteros."
+                print("Debe ingresar valores enteros.")
 
         elif op == 3:
             while True:
                 cod = input("Código: ")
                 try:
-                    val = input("Nuevo Precio: "))
+                    val = input("Nuevo Precio: ")
 
                     if not validar_precio(val):
                         print("Precio inválido.")
@@ -170,12 +178,10 @@ def main ():
                     break
         elif op == 4:
             gestion_agregar(juegos, inventario)
-
         elif op == 5:
             gestion_eliminar(juegos, inventario)
         elif op == 6:
             print("Programa finalizado.")
             break
-        
-if__name__ == "__main__" : main()
+if __name__ == "__main__": main()
         
